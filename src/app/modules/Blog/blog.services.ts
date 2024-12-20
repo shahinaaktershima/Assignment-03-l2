@@ -8,8 +8,8 @@ const createBlogIntoDB=async(blog:TBlog)=>{
     return result
 }
 // get all blogs
-const getAllBlogsFromDB=async()=>{
-    const result=await BlogModel.find();
+const getAllBlogsFromDB=async(query:any,sort:any)=>{
+    const result=await BlogModel.find(query).sort(sort);
         return result
 }
 // get single blogs

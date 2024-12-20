@@ -23,8 +23,31 @@ const createNewBlog=async(req:Request,res:Response)=>{
 const getAllBlogs=async(req:Request,res:Response)=>{
     
         try{
-            
-            const result=await BlogServices.getAllBlogsFromDB()
+            const { search, sortBy = 'createdAt', sortOrder = 'desc', filter } = req.query;
+
+    // Base query object
+    const query: any = {};
+
+    // Apply search filter (title or content)
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } }, // Case-insensitive search in title
+        { content: { $regex: search, $options: 'i' } }, // Case-insensitive search in content
+      ];
+    }
+
+    // Apply author filter
+    if (filter) {
+      query.author = filter;
+    }
+
+    // Define sort object
+    const sort: any = {};
+    sort[sortBy as string] = sortOrder === 'asc' ? 1 : -1; // 1 for ascending, -1 for descending
+
+    // Fetch blogs from the database
+   
+            const result=await (await BlogServices.getAllBlogsFromDB(query,sort))
             // res.send(result)
             res.status(200).json({
                 success:true,
