@@ -40,10 +40,10 @@ Make sure you have the following installed:
 - npm install
 # or
 yarn install
-- admin credentials
+# admin credentials
 {
-   "email": "shimanewapp@example.com",
-  "password": "passwordshima12356hjhh"
+  -  "email": "shimanewapp@example.com",
+ - "password": "passwordshima12356hjhh"
 }
-npm run build
-npm start
+- npm run build
+- npm start
