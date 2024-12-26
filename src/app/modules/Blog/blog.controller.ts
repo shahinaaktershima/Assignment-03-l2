@@ -1,14 +1,26 @@
 import { Request, Response } from "express";
 import { BlogServices } from "./blog.services";
+import { Usermodel } from "../User/user.models";
 
 const createNewBlog=async(req:Request,res:Response)=>{
     try{
         const blog=req.body
+        const user=req.user
+        
+        console.log(user);
+        
         const result=await BlogServices.createBlogIntoDB(blog);
+        
         res.status(200).json({
             success:true,
             message:'blog is created successfully',
-            data:result
+            statusCode: 201,
+            data:[{
+                _id:result._id,
+                title: result.title,
+                content: result.content,
+                author: user.id
+              }]
         })
     }catch(err){
         console.log(err)
@@ -47,11 +59,12 @@ const getAllBlogs=async(req:Request,res:Response)=>{
 
     // Fetch blogs from the database
    
-            const result=await (await BlogServices.getAllBlogsFromDB(query,sort))
+            const result=await BlogServices.getAllBlogsFromDB(query,sort)
             // res.send(result)
             res.status(200).json({
                 success:true,
                 message:"Blogs fetched successfully",
+                statusCode: 200,
                 data:result
             })
         }
@@ -117,9 +130,10 @@ const updateOneBlog=async(req:Request,res:Response)=>{
     res.status(200).json({
         success:true,
         message:"Blog updated successfully",
+        statusCode: 200,
         data:result
     })
-    
+   
 }
 export const BlogController={
     createNewBlog,getSingleBlog,getAllBlogs,DeleteSingleBlog,updateOneBlog

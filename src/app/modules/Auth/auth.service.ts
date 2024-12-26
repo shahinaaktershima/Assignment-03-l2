@@ -39,7 +39,7 @@ const isPasswordMatched= await bcrypt.compare(payload?.password,isUserExist?.pas
 console.log(isPasswordMatched);
 
 if(!isPasswordMatched){
-    throw new AppError( 401,'invalid password',);
+    throw new AppError( 401,'invalid credintials');
     // return {
     //     success: false,
     //     message: 'Invalid credentials',
@@ -50,13 +50,14 @@ if(!isPasswordMatched){
 }
 const jwtPayload={
     email:isUserExist?.email,
-    role:isUserExist?.role
+    role:isUserExist?.role,
+    id:isUserExist?._id
 }
-const accessToken=jwt.sign(jwtPayload, config.jwt_access_secret as string, { expiresIn: '20d' });
+const token=jwt.sign(jwtPayload, config.jwt_access_secret as string, { expiresIn: '20d' });
  
 
 return{
-    accessToken
+    token
 }
     }
 

@@ -7,7 +7,7 @@ import { User_Role } from '../User/user.constants'
 const router=express.Router()
 
 
-router.post('/',BlogController.createNewBlog)
+router.post('/',auth(User_Role.user),BlogController.createNewBlog)
 router.get('/',BlogController.getAllBlogs)
 router.get('/:id',BlogController.getSingleBlog)
 router.delete('/:id',auth(User_Role.user),BlogController.DeleteSingleBlog)

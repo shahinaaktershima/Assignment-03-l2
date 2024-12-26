@@ -22,6 +22,8 @@ jwt.verify(token as string, config.jwt_access_secret as string,function(err,deco
         })
     }
     const role=(decoded as JwtPayload).role
+   
+    
     if(requiredRoles&& !requiredRoles.includes(role)){
         res.status(401).json({
             success:false,
