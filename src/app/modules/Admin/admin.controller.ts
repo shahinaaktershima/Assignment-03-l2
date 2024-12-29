@@ -10,7 +10,6 @@ const DeleteSingleBlog=async (req:Request,res:Response)=>{
             success:true,
             message:"Blog deleted successfully",
             statusCode:200,
-            data:result
         })
         
         
