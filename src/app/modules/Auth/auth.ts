@@ -7,13 +7,14 @@ import { TuserRole } from "../User/user.Interface"
 const auth=(...requiredRoles:TuserRole[])=>{
      return catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
         console.log(req.headers.authorization);
-        const token=req.headers.authorization
-if(!token){
+        const authHeader=req.headers.authorization
+if(!authHeader||!authHeader.startsWith('Bearer ')){
     res.status(401).json({
         success:false,
         message:"you are not authorized user"
     })
 }
+const token = authHeader?.split(' ')[1] ;
 jwt.verify(token as string, config.jwt_access_secret as string,function(err,decoded){
     if(err){
         res.status(401).json({

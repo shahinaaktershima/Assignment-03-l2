@@ -1,15 +1,24 @@
 import { Request, Response } from "express";
 import { BlogServices } from "./blog.services";
-import { Usermodel } from "../User/user.models";
+import { BlogModel } from "./blog.modes";
+
+
 
 const createNewBlog=async(req:Request,res:Response)=>{
     try{
-        const blog=req.body
+        const {title,content}=req.body
         const user=req.user
         
         console.log(user);
+
+        const blog = new BlogModel({
+            title,
+            content,
+            author:user.id,
+            
+          });
         
-        const result=await BlogServices.createBlogIntoDB(blog);
+          const result=await BlogServices.createBlogIntoDB(blog);      
         
         res.status(200).json({
             success:true,
@@ -103,8 +112,6 @@ const DeleteSingleBlog=async (req:Request,res:Response)=>{
         
             const{id}=req.params
             
-            
-            
         const result=await BlogServices.deleteOneBlogsFromDB(id)
         res.status(200).json({
             success:true,
@@ -126,6 +133,7 @@ const DeleteSingleBlog=async (req:Request,res:Response)=>{
 const updateOneBlog=async(req:Request,res:Response)=>{
     const {id}=req.params
     const blog = req.body;
+  
     const result = await BlogServices.updateOneBlogFromDB(id,blog);
     res.status(200).json({
         success:true,

@@ -1,6 +1,7 @@
 import { string } from "zod"
 import { TBlog } from "./blog.Interface"
 import { BlogModel } from "./blog.modes"
+import { Request, Response } from "express"
 
 const createBlogIntoDB=async(blog:TBlog)=>{
   
@@ -25,10 +26,12 @@ const result=await BlogModel.findOneAndDelete({_id})
 }
 // update one blogs
 const updateOneBlogFromDB=async(_id:string,payload: Partial<TBlog>)=>{
-    const { title,content,...remainingBLOGData } = payload;
+    const { title,content,author,...remainingBLOGData } = payload;
+   
     const modifiedUpdatedData: Record<string, unknown> = {
         ...remainingBLOGData,
       };
+     
       if (title) {
        
           modifiedUpdatedData[`title`] = title;

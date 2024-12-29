@@ -15,7 +15,7 @@ router.post('/login',
 )
 
 router.post('/register',UserController.createUser)
-router.get('/',UserController.getAllUser)
+// router.get('/',UserController.getAllUser)
 router.get('/:email',UserController.getSingleUser)
 
 
