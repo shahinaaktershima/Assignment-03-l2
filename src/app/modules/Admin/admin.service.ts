@@ -53,7 +53,10 @@ import { BlogModel } from "../Blog/blog.modes";
       const modifiedUpdatedData: Record<string, unknown> = {
           ...remainingUserData,
         };
-        modifiedUpdatedData.isBlocked=true
+        if (isBlocked) {
+       
+          modifiedUpdatedData[`isBlocked`] = isBlocked;
+        }
            
         const result = await Usermodel.findByIdAndUpdate(_id, modifiedUpdatedData, {
           new: true,
